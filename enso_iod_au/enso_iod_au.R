@@ -1,4 +1,3 @@
-library("ncdf4")
 library("pracma")
 library("stagedtrees")
 
@@ -16,17 +15,10 @@ library("stagedtrees")
 ### author: Gherardo Varando <gherardo.varando@gmail.com> 
 
 ### load the data
-enso <- ncvar_get(nc_open('data/enso_son.nc'))
-au <- ncvar_get(nc_open('data/precip_au_son.nc'), varid = 'precip')
-iod <- ncvar_get(nc_open('data/iod_son.nc'))
+data <- read.csv("data/data_enso_iod_au.csv")
 
 ### plot data
-plot(enso, type = "l")
-plot(au, type = "l")
-plot(iod, type = "l")
-
-
-data <- data.frame(enso = enso, iod = iod, au = au)
+plot(data$enso, type = "l")
 
 ## standardize
 data <- scale(data)
@@ -63,6 +55,6 @@ mod2 <- full(data.categ, order = c('iod', 'enso', 'au')) |>
   stages_bhc(score = function(x) -AIC(x))
 
 ### plot model 1 and model 2 
-plot(mod1, main = format(BIC(mod1), digits = 5))
-plot(mod2, main = format(BIC(mod2), digits = 5))
+plot(mod1, main = format(AIC(mod1), digits = 5))
+plot(mod2, main = format(AIC(mod2), digits = 5))
 
