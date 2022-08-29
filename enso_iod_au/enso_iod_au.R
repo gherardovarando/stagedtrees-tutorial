@@ -55,6 +55,5 @@ mod2 <- full(data.categ, order = c('iod', 'enso', 'au')) |>
   stages_bhc(score = function(x) -AIC(x))
 
 ### plot model 1 and model 2 
-plot(mod1, main = format(AIC(mod1), digits = 5))
-plot(mod2, main = format(AIC(mod2), digits = 5))
-
+plot(mod1, main = paste0("AIC=",format(AIC(mod1), digits = 5)))
+plot(mod2, main = paste0("AIC=",format(AIC(mod2), digits = 5)))
