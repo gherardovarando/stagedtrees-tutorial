@@ -1,0 +1,98 @@
+---
+title: "First Steps"
+output: html_notebook
+---
+
+
+## Build staged trees 
+
+```{r}
+library(stagedtrees)
+## we use data stored in contingency table 
+## but it works also with data.frame objects.
+data("Titanic") 
+```
+
+### Directly from data
+
+We can use the functions `full` or `indep` to build 
+saturated or fully independent staged trees. 
+
+```{r}
+model_f1 <- full(Titanic, order = c("Class", "Age", "Sex", "Survived"))
+model_f1
+```
+
+By default `join_unobserved = TRUE` and thus unobserved situations are merged 
+into a *special* stage (by default called `name_unobserved = "UNOBSERVED"`). 
+
+For example for `model_f1`:
+
+```{r}
+stages(model_f1, var = "Sex") 
+
+## we can check which path lead to the unobserved situation 
+get_path(model_f1, var = "Sex", stage = "UNOBSERVED")
+```
+
+
+```{r}
+model_f2 <- full(Titanic, order = c("Class", "Age", "Sex", "Survived"),
+                 join_unobserved = FALSE)
+model_f2
+```
+
+What is a staged tree `sevt` object ? 
+```{r}
+attributes(model_f1)
+```
+the `tree` element represent the order of the variable and their levels:
+```{r}
+model_f1$tree
+```
+
+
+### Build staged trees manually 
+
+We can also use directly the `sevt` constructor 
+and build staged tree structures manually:
+
+```{r}
+tree <- list(Class = c("1st", "2nd", "3rd", "Crew"),
+             Age = c("Child", "Adult"),
+             Sex = c("Male", "Female"),
+             Survived = c("No", "Yes"))
+model_f0 <- sevt(tree, full = TRUE)
+model_f0
+
+### alternatively we can also directly call sevt on the data
+# model_f0 <- sevt(Titanic, order = c("Class", "Age", "Sex", "Survived"), 
+#                  full = TRUE)
+```
+
+So what is the difference between `full` or `indep` and `sevt` ? 
+
+```{r}
+BIC(model_f1)
+
+BIC(model_f0)
+```
+
+The functions `full` and `indep` will both construct the staged tree object, 
+attach the data in ctables and compute probabilities.
+While the `sevt` constructur will just build the staged tree structure 
+but will not *fit* the model to data. 
+Nevertheless, we can fit `model_f0` to the Titanic data with the
+`sevt_fit` function: 
+```{r}
+model_f0_fitted <- sevt_fit(model_f0, data = Titanic, lambda = 0)
+```
+
+Alternatively we can even isolate the unobserved situations with 
+`join_unobserved`,
+```{r}
+## this is equivalent to full(Titanic) but slower..
+model_f0 |> sevt_fit(data = Titanic, lambda =0) |> join_unobserved()
+```
+
+

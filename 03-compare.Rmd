@@ -1,0 +1,48 @@
+---
+title: "Comparing Models"
+output: html_notebook
+---
+
+
+We can start from two simple models obtained with 
+the `stages_bhc` and `stages_hc` functions. 
+
+```{r}
+library("stagedtrees")
+model_1 <- Titanic |> full() |> stages_bhc()
+model_2 <- Titanic |> indep() |> stages_hc()
+```
+
+We plot them side by side once more, 
+
+```{r, fig.show='hold'}
+par(mfrow = c(1,2))
+plot(model_1, main = "Model 1 (BHC-full)")
+plot(model_2, main = "Model 2 (HC-indep)")
+```
+
+We can see the stage structures for `Age` and `Survived` is 
+different ... but how much? 
+We can use the `compare_stages` function for that.
+
+In its simpler usage, the `compare_stages` function just check 
+if two staged trees have the same stage structure. 
+
+```{r}
+compare_stages(model_1, model_2)
+```
+
+Alternatively we can plot the differences in the tree, 
+```{r}
+## try also method = "stages", check ?compare_stages
+## the "naive" method just compare the stages vectors afterr a standard renaming 
+compare_stages(model_1, model_2, method = "hamming", plot = TRUE)
+```
+
+
+```{r}
+lr_test(model_1, model_2)
+```
+
+
+
