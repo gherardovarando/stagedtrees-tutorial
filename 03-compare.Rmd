@@ -9,16 +9,16 @@ the `stages_bhc` and `stages_hc` functions.
 
 ```{r}
 library("stagedtrees")
-model_1 <- Titanic |> full() |> stages_bhc()
-model_2 <- Titanic |> indep() |> stages_hc()
+model1 <- Titanic |> full() |> stages_bhc()
+model2 <- Titanic |> indep() |> stages_hc()
 ```
 
 We plot them side by side once more, 
 
 ```{r, fig.show='hold'}
 par(mfrow = c(1,2))
-plot(model_1, main = "Model 1 (BHC-full)")
-plot(model_2, main = "Model 2 (HC-indep)")
+plot(model1, main = "Model 1 (BHC-full)")
+plot(model2, main = "Model 2 (HC-indep)")
 ```
 
 We can see the stage structures for `Age` and `Survived` is 
@@ -29,20 +29,52 @@ In its simpler usage, the `compare_stages` function just check
 if two staged trees have the same stage structure. 
 
 ```{r}
-compare_stages(model_1, model_2)
+compare_stages(model1, model2)
 ```
 
 Alternatively we can plot the differences in the tree, 
 ```{r}
 ## try also method = "stages", check ?compare_stages
 ## the "naive" method just compare the stages vectors afterr a standard renaming 
-compare_stages(model_1, model_2, method = "hamming", plot = TRUE)
+compare_stages(model1, model2, method = "hamming", plot = TRUE)
 ```
 
+You can also use directly `hamming_stages`and `diff_stages`
 
 ```{r}
-lr_test(model_1, model_2)
+hamming_stages(model1, model2) 
 ```
+
+```{r}
+diff_stages(model1, model2)
+```
+
+Or you can check inclusion of stages with 
+
+```{r}
+inclusions_stages(model1, model2)
+```
+
+
+## Likelihood-ratio test
+
+```{r}
+try(lr_test(model1, model2))
+```
+
+```{r}
+model1.1 <- join_stages(model1, "Sex", 3, 4)
+
+lr_test(model1.1, model1)
+
+model1.2 <- model1 
+model1.2$stages$Sex <- c(1,2,3,4)
+model1.2 <- sevt_fit(model1.2)
+
+lr_test(model1, model1.2)
+```
+
+
 
 
 

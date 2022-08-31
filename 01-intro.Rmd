@@ -1,6 +1,10 @@
 ---
 title: "First Steps"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
 ---
 
 
@@ -75,7 +79,7 @@ So what is the difference between `full` or `indep` and `sevt` ?
 ```{r}
 BIC(model_f1)
 
-BIC(model_f0)
+try(BIC(model_f0))
 ```
 
 The functions `full` and `indep` will both construct the staged tree object, 

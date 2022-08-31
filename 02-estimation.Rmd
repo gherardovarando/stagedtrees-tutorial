@@ -14,19 +14,50 @@ in the `stages_*` functions
 and start from a given `sevt` object (usually built with `full` or `indep`). 
 
 
-## Hill-climbing algorithms 
+### Hill-climbing algorithms 
 
 ```{r}
-mod_1 <- stages_bhc(mod_f)
-mod_2 <- stages_hc(mod_i)
+mod1 <- stages_bhc(mod_f)
+mod2 <- stages_hc(mod_i)
 
-BIC(mod_1, mod_2)
+BIC(mod1, mod2)
 ```
 
 ```{r, fig.show='hold'}
 par(mfrow=c(1,2))
-plot(mod_1)
-plot(mod_2)
+plot(mod1)
+plot(mod2)
+```
+
+#### Changing the score
+
+```{r}
+## use -AIC as score
+mod1a <- stages_bhc(mod_f, score = function(x) -AIC(x))
+
+## use logLik as score
+mod2a <- stages_hc(mod_i, score = logLik) 
+#mod1b <- stages_bhc(mod_f, score = logLik)
+
+## why mod2a is not equal to mod_f ?
+#plot(mod1b)
+plot(mod2a)
 ```
 
 
+### Clustering algorithms
+
+```{r}
+mod3 <- stages_hclust(mod_f, k = 2)
+mod4 <- stages_kmeans(mod_f, k = c(Sex = 2, Age = 3, Survived = 4))
+```
+
+
+
+```{r, fig.show='hold'}
+par(mfrow=c(1,2))
+plot(mod3)
+plot(mod4)
+```
+
+### 
