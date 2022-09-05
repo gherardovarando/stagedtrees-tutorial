@@ -41,9 +41,6 @@ model1 <- sevt.bn |> sevt_fit(data = data.covid, lambda = 0) |>
 plot(model1)
 ```
 
-```{r}
-
-```
 
 
 
