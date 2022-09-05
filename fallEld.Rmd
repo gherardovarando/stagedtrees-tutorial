@@ -1,0 +1,41 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(stagedtrees)
+
+## change to path of FallEld.rds 
+fall <- readRDS(file = "data/FallEld.rds")
+order <- c("A", "R", "T", "answer")
+model <- fall |> full(join = TRUE, lambda = 1, order = order) |> 
+             stages_hc() |> stndnaming(uniq = TRUE)
+
+#manual color mapping
+colors <- list(
+  "A" = c("1" = "black"),
+  "R" = c("1" = "orange1", "2" = "orange3", "3" = "orangered", "4" = "orangered4"),
+  "T" = c("5" = "yellow", "6" = "cyan", "7" = "grey"),
+  "answer" = c("8" = "purple", "9" = "green", 
+               "10" = "brown", "11" = "red", "12" = "blue")  
+)
+```
+
+```{r, fig.height=10, fig.width=5}
+plot(model, var_names = FALSE, 
+     cex_label_edges = 0.8, col = colors, xlim = c(0,1),
+     ylim = c(0,2), cex_nodes = 2)
+
+```
+
+```{r, fig.width=10, fig.height=5}
+ceg <- ceg(model)
+plot(ceg, asp = 0.4, col = colors)
+```
+
+
+```{r}
+barplot(model, var = "answer", col = colors$answer, legend.text = FALSE)
+```

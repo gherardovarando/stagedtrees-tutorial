@@ -16,7 +16,7 @@ and start from a given `sevt` object (usually built with `full` or `indep`).
 
 ### Hill-climbing algorithms 
 
-```{r}
+```{r}v
 mod1 <- stages_bhc(mod_f)
 mod2 <- stages_hc(mod_i)
 

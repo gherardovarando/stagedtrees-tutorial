@@ -1,0 +1,49 @@
+---
+title: "Staged trees and Bayesian Networks"
+output: html_notebook
+---
+
+
+```{r}
+library("stagedtrees")
+library("bnlearn")
+```
+
+
+We show here how to work with staged trees and Bayesian networks.
+
+We can start by learning a BN with `bnlearn::hc` function:
+
+```{r}
+data.covid <- readRDS(file = "data/simulated_covid_france.rds")
+
+## we impose maxp = 2 to have a more sparse BN
+bn <- hc(data.covid)
+plot(bn)
+```
+
+
+Now we can translate the BN to the equivalent staged tree `sevt` object:
+
+```{r}
+## we need to provide the levels of the variables
+sevt.bn <- as_sevt(bn, values = lapply(data.covid, levels))
+plot(sevt.bn)
+```
+
+We can use the `sevt.bn` object to initialize a stages learning algorithm, but first we 
+need to fit it to data:
+
+```{r}
+model1 <- sevt.bn |> sevt_fit(data = data.covid, lambda = 0) |> 
+    stages_hclust(scope = c("ICU", "death"), k = 4)
+   #stages_bhc()
+plot(model1)
+```
+
+```{r}
+
+```
+
+
+

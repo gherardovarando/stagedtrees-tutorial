@@ -1,5 +1,5 @@
 #if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+#    install.packages("BiocManager")
 
 
 #BiocManager::install("graph")
