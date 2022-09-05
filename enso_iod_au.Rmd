@@ -51,9 +51,6 @@ plot(data)
 ```
 
 
-
-
-
 ### Define Categorical Data
 
 ```{r}
@@ -98,6 +95,12 @@ In [Kretschmer et al. (2022)](https://journals.ametsoc.org/view/journals/bams/10
 
 *We can see from this that the phase of IOD has barely any effect on AU for either La Niña or El Niño. For example, the Bayes factor for IOD+ during El Niño is 0.24/0.22 = 1.09, meaning that the probability of AU+ during El Niño phases is increased by only 9% if the IOD is positive. When ENSO is neutral there is a suggestion that IOD+ decreases the probability of AU+, while IOD− has a weaker positive effect.*
 
+We can see that the staged tree analysis leads to similar conclusions.
+In particular:
+
+- `au` is independent of `iod` under the contexts `enso = Nino` and `enso = Nina`. 
+- When `enso = neutral` we can see that `iod = pos` decrease the 
+probability of `au = high` (see the barplot).
 
 ## Alternative Causal Order 
 
