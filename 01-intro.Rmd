@@ -63,6 +63,27 @@ the `tree` element represent the order of the variable and their levels:
 model_f1$tree
 ```
 
+the `stages` are the vectors of stages for each variables:
+
+```{r}
+model_f1$stages
+```
+
+`ctables` contains the data distributed on the tree:
+
+```{r}
+model_f1$ctables
+```
+
+`prob` are the estimated probabilities: 
+```{r}
+model_f1$prob
+```
+
+`lambda` is the smoothing coefficient for 
+the estimation of the probabilities, 
+`ll` stores the computed log-likelihood and `name_unobserved` store the
+name of the stages contatining unobserved situations.
 
 ### Build staged trees manually 
 
