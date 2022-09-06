@@ -17,22 +17,23 @@ and start from a given `sevt` object (usually built with `full` or `indep`).
 ### Hill-climbing algorithms 
 
 ```{r}
-mod1 <- stages_bhc(mod_f)
-mod2 <- stages_hc(mod_i)
+mod1 <- stages_bhc(mod_f) ## backward hill-climbing
+mod1a <- stages_fbhc(mod_f) ## fast backward
+mod2 <- stages_hc(mod_i) ## hill climbing
 
 BIC(mod1, mod2)
 ```
 
 ```{r, fig.show='hold'}
 par(mfrow=c(1,2))
-plot(mod1)
-plot(mod2)
+plot(mod1, main = "stages_bhc")
+plot(mod2, main = "stages_hc")
 ```
 
 #### Changing the score
 
 ```{r}
-## use -AIC as score
+## use -AIC as score, the score is always maximised!!
 mod1a <- stages_bhc(mod_f, score = function(x) -AIC(x))
 
 ## use logLik as score
@@ -62,22 +63,45 @@ plot(mod4)
 
 ### Additional arguments
 
+The `scope` argument limit the search to one of the variables.
 ```{r}
 mod5 <- stages_bhc(mod_f, scope = "Survived")
 plot(mod5)
 ```
 
+The `ignore` argument is used to exclude some stages from the search. 
+By default it is equal to the `$name_uonberved` field (usually `"UNOBSERVED"`)
+```{r}
+## we make a new starting model 
+mod_start <- mod_f 
+## we fix some stages
+mod_start$stages$Age[1:4] <- "MYSTAGE"
+mod_start$stages$Survived[c(1,5,10)] <- "FIX"
+## we need to refit the model!!!
+mod_start <- sevt_fit(mod_start)
+
+## could we also ignore the UNOBSERVED? 
+mod6 <- stages_bhc(mod_start, ignore = c("MYSTAGE", "FIX"))
+
+## we plot with some special colors to higlight the unchanged stages
+colors <- make_stages_col(mod6, col = function(stages){
+    hcl.colors(n = length(stages))
+})
+colors$Age["MYSTAGE"] <- "purple"
+colors$Survived["FIX"] <- "orange"
+plot(mod6, col = colors)
+```
 
 
 ### Order search
 
 
 ```{r}
-mod6 <- search_greedy(Titanic)
-plot(mod5)
+mod7 <- search_greedy(Titanic)
+plot(mod7)
 ```
 ```{r}
-mod7 <- search_best(Titanic)
-plot(mod6)
+mod8 <- search_best(Titanic)
+plot(mod8)
 ```
 

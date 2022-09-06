@@ -4,11 +4,22 @@ output:
   html_notebook: default
 ---
 
+## The package
+
+```{r}
+library("stagedtrees")
+## you also need the packages: clue and igraph for some functions
+```
+
+```{r}
+citation("stagedtrees")
+```
+
 
 ## Build staged trees 
 
 ```{r}
-library(stagedtrees)
+library("stagedtrees")
 ## we use data stored in contingency table 
 ## but it works also with data.frame objects.
 data("Titanic") 
@@ -96,4 +107,25 @@ Alternatively we can even isolate the unobserved situations with
 model_f0 |> sevt_fit(data = Titanic, lambda =0) |> join_unobserved()
 ```
 
+## Some functions
+
+```{r}
+summary(model_f1)
+```
+
+
+```{r}
+get_path(model_f1, "Survived", "8")
+
+get_path(model_f1, "Survived", "UNOBSERVED")
+```
+
+```{r}
+get_stage(model_f1, c("Crew", "Child", "Male"))
+```
+
+```{r}
+## join two stages and update probabilities and log Lik.
+join_stages(model_f1, "Survived", "1", "2")
+```
 

@@ -45,4 +45,12 @@ plot(model1)
 ## From staged trees to Bayesian networks
 
 
+```{r}
+as_parentslist(model1)
+```
+
+```{r}
+plot(as_bn(model1))
+```
+
 

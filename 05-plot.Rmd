@@ -3,39 +3,62 @@ title: "Plotting staged trees"
 output: html_notebook
 ---
 
-```{r, fig.width=10, fig.height=10}
+```{r}
+library("stagedtrees")
 data("PhDArticles")
 mod <- stages_bj(full(PhDArticles, join_unobserved = TRUE))
+```
 
+```{r, fig.width=4, fig.height=4}
 ### simple plotting
 plot(mod)
+```
 
-### labels in nodes 
-plot(mod, cex_label_nodes = 1, cex_nodes = 0)
 
-### reduce nodes size
-plot(mod, cex_nodes = 0.5)
+```{r, fig.width=4, fig.height=4}
+### labels in nodes
+plot(mod, cex_label_nodes = 0.5, cex_nodes = 0, cex_label_edges = 0.5, var_names = FALSE)
+```
 
+```{r, fig.width=4, fig.height=4}
 ### change line width and nodes style
 plot(mod, lwd_edges = 3, pch_nodes = 5)
+```
 
+
+```{r, fig.width=4, fig.height=4}
 ### changing palette
 plot(mod, col = function(s) heat.colors(length(s)))
+```
+
+
 
 ### or changing global palette
+```{r, fig.width=4, fig.height=4}
 palette(hcl.colors(10, "Harmonic"))
 plot(mod)
-palette("default") ##
+palette("default")
+```
+
+
 
 ### forcing plotting of unobserved stages
+```{r, fig.width=4, fig.height=4}
 plot(mod, ignore = NULL)
+```
+
 
 ### use function to specify colors 
+```{r, fig.width=4, fig.height=4}
 plot(mod, col = function(stages){
     hcl.colors(n = length(stages))
 })
+```
+
+
 
 ### manually give stages colors
+```{r, fig.width=4, fig.height=4}
 ### as an example we will assign colors only to the stages of two variables
 ### Gender (one stage named "1") and Mentor (six stages)
 col <- list(Gender = c("1" = "blue"), 
@@ -48,4 +71,3 @@ col <- list(Gender = c("1" = "blue"),
 ### by setting ignore = NULL we will plot also the UNOBSERVED stage for Mentor
 plot(mod, col = col, ignore = NULL)
 ```
-

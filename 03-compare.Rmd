@@ -74,7 +74,38 @@ model1.2 <- sevt_fit(model1.2)
 lr_test(model1, model1.2)
 ```
 
+## Context intervention discrepancy 
 
+
+Introduced in [Leonelli and Varando, (2021)](https://arxiv.org/abs/2106.04416), it measures the 
+number of wrongly inferred intervention distributions. 
+It can also compare staged trees with different variable orderings. 
+
+```{r}
+## model1 is assumed to be the truth 
+cid(model1, model2)
+```
+
+```{r}
+## no model is wrong with respect to the independence model
+cid(indep(Titanic), model1)
+```
+
+```{r}
+## even if you change the order
+cid(indep(Titanic, order = c("Survived", "Sex", "Age", "Class")), model1)
+```
+
+
+```{r}
+## we assume model1 is the true
+DD <- sample_from(model1, nsim = 1e2) ## try increasing nsim up to 1e5
+estmodel <- search_best(DD)
+cid(model1, estmodel)
+
+## this will fail if the order is wrong
+try(hamming_stages(model1, estmodel)) 
+```
 
 
 
