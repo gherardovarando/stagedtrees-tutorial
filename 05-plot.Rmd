@@ -71,3 +71,14 @@ col <- list(Gender = c("1" = "blue"),
 ### by setting ignore = NULL we will plot also the UNOBSERVED stage for Mentor
 plot(mod, col = col, ignore = NULL)
 ```
+
+
+## CEG
+
+CEG positions are obtained with the `ceg` fucntion
+```{r, fig.width=4, fig.height=2}
+mod.ceg <- ceg(mod)
+
+plot(mod.ceg)
+```
+

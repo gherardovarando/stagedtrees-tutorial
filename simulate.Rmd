@@ -4,6 +4,7 @@ output: html_notebook
 ---
 
 ```{r}
+library("stagedtrees")
 pl <- random_parentslist(10, maxp = 3)
 pl
 ```
