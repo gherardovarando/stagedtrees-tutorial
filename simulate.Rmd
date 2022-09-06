@@ -1,0 +1,34 @@
+---
+title: "Simulate and estimate"
+output: html_notebook
+---
+
+```{r}
+pl <- random_parentslist(10, maxp = 3)
+pl
+```
+
+```{r}
+model0 <- random_sevt(pl, q = 0.5)
+plot(model0)
+as_parentslist(model0)
+```
+```{r}
+data <- sample_from(model0, nsim = 10000)
+```
+
+
+
+```{r}
+mod <- as_sevt(pl) |> sevt_fit(data = data, lambda = 0) |> stages_bhc()
+```
+
+
+```{r}
+hamming_stages(model0, mod)
+```
+
+```{r}
+cid(model0, mod)$cid
+```
+
