@@ -16,7 +16,7 @@ and start from a given `sevt` object (usually built with `full` or `indep`).
 
 ### Hill-climbing algorithms 
 
-```{r}v
+```{r}
 mod1 <- stages_bhc(mod_f)
 mod2 <- stages_hc(mod_i)
 
@@ -60,4 +60,24 @@ plot(mod3)
 plot(mod4)
 ```
 
-### 
+### Additional arguments
+
+```{r}
+mod5 <- stages_bhc(mod_f, scope = "Survived")
+plot(mod5)
+```
+
+
+
+### Order search
+
+
+```{r}
+mod6 <- search_greedy(Titanic)
+plot(mod5)
+```
+```{r}
+mod7 <- search_best(Titanic)
+plot(mod6)
+```
+

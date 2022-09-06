@@ -42,5 +42,7 @@ plot(model1)
 ```
 
 
+## From staged trees to Bayesian networks
+
 
 

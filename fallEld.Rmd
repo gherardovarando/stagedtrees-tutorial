@@ -7,12 +7,13 @@ output: html_notebook
 ```{r}
 library(stagedtrees)
 
-## change to path of FallEld.rds 
 fall <- readRDS(file = "data/FallEld.rds")
 order <- c("A", "R", "T", "answer")
-model <- fall |> full(join = TRUE, lambda = 1, order = order) |> 
+model <- fall |> full(join = TRUE, lambda = 0, order = order) |> 
              stages_hc() |> stndnaming(uniq = TRUE)
+```
 
+```{r}
 #manual color mapping
 colors <- list(
   "A" = c("1" = "black"),
@@ -23,6 +24,7 @@ colors <- list(
 )
 ```
 
+Plot the staged tree;
 ```{r, fig.height=10, fig.width=5}
 plot(model, var_names = FALSE, 
      cex_label_edges = 0.8, col = colors, xlim = c(0,1),
@@ -30,12 +32,14 @@ plot(model, var_names = FALSE,
 
 ```
 
-```{r, fig.width=10, fig.height=5}
-ceg <- ceg(model)
-plot(ceg, asp = 0.4, col = colors)
+Plot the ceg:
+```{r, fig.width=10, fig.height=7}
+model.ceg <- ceg(model)
+plot(model.ceg, asp = 0.4, col = colors, vertex.size = 7, vertex.label.cex = 2, edge.color = "black")
 ```
 
 
+Plot the conditional probabilities for `answer`:
 ```{r}
 barplot(model, var = "answer", col = colors$answer, legend.text = FALSE)
 ```
