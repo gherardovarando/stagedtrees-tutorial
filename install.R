@@ -9,6 +9,9 @@ install.packages("bnlearn")
 
 install.packages("igraph")
 install.packages("clue")
-install.packages("stagedtrees")
 
 install.packages("pracma")
+
+install.packages("devtools")
+devtools::install_github("gherardovarando/stagedtrees", ref="random_sevt")
+#install.packages("stagedtrees")
